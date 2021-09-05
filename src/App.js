@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useState } from 'react';
+import {
+  BrowserRouter as Router, Route, Switch
+} from "react-router-dom";
+import Cart from './components/Cart';
+import NavBar from './components/NavBar';
+import Products from './components/Products';
 function App() {
+  const [products, setProducts] = useState([])
+  const updateProducts=(product)=>{
+    const productsCopy=[...products]
+    productsCopy.push(product)
+    setProducts(productsCopy)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+       <NavBar/>
+           <Switch>
+              <Route path="/cart">
+                  <Cart products={products} setProducts={setProducts} updateProducts={updateProducts} />
+              </Route>
+           <Route path="/">
+                  <Products updateProducts={updateProducts}/>
+              </Route>
+           
+        </Switch>
+    </Router>
   );
 }
 
